@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The Blood Initiative</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../style/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <!-- TODO add manifest here -->
+    <link rel="manifest" href="../manifest.json">
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Weather PWA">
+    <link rel="apple-touch-icon" href="../img/icons/icon-152x152.png">
+    <meta name="msapplication-TileImage" content="../img/icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#2F3BA2">
+
+
+</head>
+
+<body id="body">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">TBI</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">User Panel</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li id="login" style="visibility: hidden"><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+                        Login</a></li>
+                <li id="logout"><a onclick="logout()" href="javaScript:Void(0)"><span class="glyphicon glyphicon-user"></span>
+                        Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img id="image" src="../img/images.png" class="img-responsive" alt="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div id="name" class="profile-usertitle-name">
+
+                        </div>
+                        <div id="status-sidebar" class="profile-usertitle-job">
+                            Donor
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <div class="profile-userbuttons">
+                        <button id="acceptor" style="visibility: hidden" type="button" class="btn btn-success btn-sm">Became
+                            an Acceptor</button>
+                        <button id="donor" style="visibility: hidden" type="button" class="btn btn-danger btn-sm">Became
+                            a Donor</button>
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    Overview </a>
+                            </li>
+                            <li>
+                                <a id="about" href="#">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    About </a>
+                            </li>
+
+                            <li>
+                                <a id="help" href="#">
+                                    <i class="glyphicon glyphicon-flag"></i>
+                                    Help</a>
+                            </li>
+                            <li>
+                                <a onclick="logout()" href="javaScript:Void(0)">
+                                    <i class="glyphicon glyphicon-log-out"></i>
+                                    Logout </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <!-- <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">List of People Along With Their Blood Groups</div>
+                        <div class="panel-body"> -->
+                <table id="table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td colspan="7">List Of Acceptor</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Blood Group</th>
+                    </tr>
+                    <tbody id="tbody-acceptor">
+
+                    </tbody>
+                </table>
+                <table id="table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td colspan="7">List Of Donors</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Blood Group</th>
+                    </tr>
+                    <tbody id="tbody-donor">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyDoi9ueN8ka-blS1frEXZ1hFoxghbJUsm8",
+                authDomain: "saylani-f57b9.firebaseapp.com",
+                databaseURL: "https://saylani-f57b9.firebaseio.com",
+                projectId: "saylani-f57b9",
+                storageBucket: "saylani-f57b9.appspot.com",
+                messagingSenderId: "879502877950"
+            };
+            firebase.initializeApp(config);
+        </script>
+        <script src="../JS/test.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>
