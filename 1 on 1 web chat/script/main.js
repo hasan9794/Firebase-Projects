@@ -9,5 +9,15 @@ var config = {
   firebase.initializeApp(config);
 
   window.addEventListener('load', () =>{
-    
+    let userList = document.getElementById("userList");
+    let database = firebase.database().ref('/users');
+    database.once('value', (snapshot) =>{
+      let usersobject = snapshot.val();
+      userId = Object.keys(usersobject);
+      userId.map(key =>{
+        console.log(usersobject[key].name)
+        userList.innerHTML += `<h4>${usersobject[key].name}</h4>`
+
+      })
+    })
   })
