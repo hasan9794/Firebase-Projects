@@ -9,19 +9,21 @@ var config = {
 firebase.initializeApp(config);
 
 let login = document.getElementById('login');
-login.addEventListener('click', () =>{
+login.addEventListener('click', () => {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(() => {
-        alert("SignIn Successful")
-        location.assign('../pages/app.html')
-    })
-    
-    .catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-    });
+        .then((success) => {
+            localStorage.setItem("userAuth", JSON.stringify(success));
+            alert("SignIn Successful")
+            location.assign('../pages/app.html')
+        })
+
+        .catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorMessage);
+            // ...
+        });
 })
