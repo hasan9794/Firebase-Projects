@@ -16,8 +16,27 @@ var config = {
       userId = Object.keys(usersobject);
       userId.map(key =>{
         console.log(usersobject[key].name)
-        userList.innerHTML += `<h4>${usersobject[key].name}</h4>`
+        userList.innerHTML += `<h4 onClick="readChat('${key}')">${usersobject[key].name}</h4>`
 
       })
     })
   })
+
+  function readChat(clickedUserId) {
+    let messageContainer = document.getElementById("displayMessage");
+    messageContainer.innerHTML = "";
+    
+    let currentUserId = firebase.auth().currentUser.uid;
+    let database = firebase.database().ref('/messages').child(currentUserId + clickedUserId) 
+      database.once('value', (snapshot) => {
+          let messageObject = snapshot.val();
+          let messageKeys = Object.keys(messageObject);
+          // console.log(key);
+          messageKeys.map(key =>{
+            messageContainer.innerHTML += `<p>${messageObject[key].name}: ${messageObject[key].text}</p>`
+
+          })
+      })
+    console.log(clickedUserId ,"cliked");
+    console.log(currentUserId ,"current");
+  }

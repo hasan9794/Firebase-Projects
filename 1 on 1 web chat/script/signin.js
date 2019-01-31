@@ -15,6 +15,7 @@ login.addEventListener('click', () =>{
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
         alert("SignIn Successful")
+        location.assign('../pages/app.html')
     })
     
     .catch(function (error) {
