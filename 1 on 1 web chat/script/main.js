@@ -58,6 +58,13 @@ function readChat(clickedUserId) {
   console.log(currentUserId, "current");
 }
 
+async function sendMessage(){
+  let currentUserId = firebase.auth().currentUser.uid;
+  let get = await localStorage.getItem("clickedUserId");
+  let data = JSON.parse(get) 
+  console.log(data)
+}
+
 function logOut() {
   firebase.auth().signOut()
     .then(() => {
