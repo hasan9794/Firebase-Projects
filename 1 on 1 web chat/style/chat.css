@@ -332,3 +332,12 @@ input.textarea {
 .emojis:active {
     opacity: 0.9;
 }
+
+#logout {
+    margin-top: 7px;
+    color: #fff;
+    font-size: 22px;
+    position: fixed;
+    right: 10px;
+    cursor: pointer;
+}

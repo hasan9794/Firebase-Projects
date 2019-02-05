@@ -9,12 +9,13 @@
     <link rel="stylesheet" type="text/css" media="screen" href="../style/chat.css" />
 </head>
 
-<body>
+<body id="body">
 
     <div class="menu">
         <div class="back"><i class="fa fa-chevron-left"></i> <img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div>
         <div id="topName" class="name"></div>
         <div class="last">18:09</div>
+        <div id="logout" onClick="logOut()">Log out</div>
     </div>
     <ol id="chatArea" class="chat">
         <li class="other">
@@ -110,8 +111,8 @@
         
     </ol>
     <div>
-        <input class="textarea" type="text" placeholder="Type here!" /> 
-        <div class="emojis"> <button>send</button></div>
+        <input id="text" class="textarea" type="text" placeholder="Type here!" /> 
+        <div class="emojis"> <button id="sendBtn">send</button></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
