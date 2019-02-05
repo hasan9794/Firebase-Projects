@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../style/chat.css" />
+</head>
+
+<body>
+
+    <div class="menu">
+        <div class="back"><i class="fa fa-chevron-left"></i> <img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div>
+        <div id="topName" class="name"></div>
+        <div class="last">18:09</div>
+    </div>
+    <ol id="chatArea" class="chat">
+        <li class="other">
+            <div class="msg">
+                <h5 style="margin:0; padding: 0;">name</h5>
+                <p>Hola!</p>
+                <p>Te vienes a cenar al centro?
+                    <emoji class="pizza" />
+                </p>
+                <time>20:17</time>
+            </div>
+        </li>
+        <li class="self">
+            <!-- <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div> -->
+            <div class="msg">
+                <p>Puff...</p>
+                <p>Aún estoy haciendo el contexto de Góngora...
+                    <emoji class="books" />
+                </p>
+                <p>Mejor otro día</p>
+                <time>20:18</time>
+            </div>
+        </li>
+        <li class="other">
+            <!-- <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div> -->
+            <div class="msg">
+                <p>Qué contexto de Góngora?
+                    <emoji class="suffocated" />
+                </p>
+                <time>20:18</time>
+            </div>
+        </li>
+        <li class="self">
+            <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div>
+            <div class="msg">
+                <p>El que mandó Marialu</p>
+                <p>Es para mañana...</p>
+                <time>20:18</time>
+            </div>
+        </li>
+        <li class="other">
+            <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div>
+            <div class="msg">
+                <p>
+                    <emoji class="scream" />
+                </p>
+                <p>Pásamelo!
+                    <emoji class="please" />
+                </p>
+                <time>20:18</time>
+            </div>
+        </li>
+        <li class="self">
+            <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div>
+            <div class="msg">
+                <img src="https://i.imgur.com/QAROObc.jpg" draggable="false" />
+                <time>20:19</time>
+            </div>
+        </li>
+        <li class="other">
+            <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div>
+            <div class="msg">
+                <p>Gracias!
+                    <emoji class="hearth_blue" />
+                </p>
+                <time>20:20</time>
+            </div>
+        </li>
+        <div class="day">Hoy</div>
+        <li class="self">
+            <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div>
+            <div class="msg">
+                <p>Te apetece jugar a Minecraft?</p>
+                <time>18:03</time>
+            </div>
+        </li>
+        <li class="other">
+            <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false" /></div>
+            <div class="msg">
+                <p>Venga va, hace ya mucho que no juego...</p>
+                <time>18:07</time>
+            </div>
+        </li>
+        <li class="self">
+            <div class="avatar"><img src="https://i.imgur.com/HYcn9xO.png" draggable="false" /></div>
+            <div class="msg">
+                <p>Ehh, me crashea el Launcher...
+                    <emoji class="cryalot" />
+                </p>
+                <time>18:08</time>
+            </div>
+        </li>
+        
+    </ol>
+    <div>
+        <input class="textarea" type="text" placeholder="Type here!" /> 
+        <div class="emojis"> <button>send</button></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+    <script src="../script/chat.js"></script>
+</body>
+
+</html>

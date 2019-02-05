@@ -14,25 +14,17 @@
     <nav>
         <div class="w3-bar w3-red">
             <a href="#" class="w3-bar-item w3-button">Home</a>
+            <a href="./friends.html" class="w3-bar-item w3-button w3-right">Friends</a>
             <a onClick="logOut()" href="javascript:void" class="w3-bar-item w3-button w3-right">Logout</a>
         </div>
     </nav>
-    <div class="message">
-        <div id="displayMessage">
-            <p></p>
-        </div>
-        <input id="sendMessage" class="w3-input w3-border" type="text">
-        <button onclick="sendMessage()" id="sendBtn">Send</button>
-    </div>
+
     <h3 class="w3-center">Total Users</h3>
     <div id="userList" class="container">
-        <h4>user 1</h4>
-        <h4>user 2</h4>
-        <h4>user 3</h4>
-        <h4>user 3</h4>
+        
     </div>
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
-    <script src="../script/main.js"></script>
+    <script src="../script/allusers.js"></script>
 </body>
 
 </html>

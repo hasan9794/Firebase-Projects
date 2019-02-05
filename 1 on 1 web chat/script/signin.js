@@ -16,7 +16,7 @@ login.addEventListener('click', () => {
         .then((success) => {
             localStorage.setItem("userAuth", JSON.stringify(success));
             alert("SignIn Successful")
-            location.assign('../pages/app.html')
+            location.assign('../pages/allUsers.html')
         })
 
         .catch(function (error) {

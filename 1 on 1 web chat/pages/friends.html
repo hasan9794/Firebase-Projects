@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Timeline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../style/main.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body id="body">
+    <nav>
+        <div class="w3-bar w3-red">
+            <a href="#" class="w3-bar-item w3-button">Home</a>
+            <a onClick="logOut()" href="javascript:void" class="w3-bar-item w3-button w3-right">Logout</a>
+        </div>
+    </nav>
+
+    <div class="w3-center friendRequest">
+        <h3>friend Request</h3>
+        <div id="requestContainer">
+
+        </div>
+    </div>
+    <div class="w3-center friends">
+        <h3>List of friends</h3>
+        <div id="friendsContainer">
+
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+    <script src="../script/friends.js"></script>
+</body>
+
+</html>
