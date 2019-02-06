@@ -37,10 +37,11 @@ async function loadPreviousData() {
     let clickedUserId = JSON.parse(getclickedUserId)
 
     let database = firebase.database().ref(`chats/friends/${currentUserId}/${clickedUserId}/messages/`)
-    database.once('value', (snapshot) => {
+    database.on('value', (snapshot) => {
         let messageObj = snapshot.val();
         let messageKeys = Object.keys(messageObj);
         console.log(messageKeys)
+        chatArea.innerHTML = "";
         messageKeys.map(key => {
             if (messageObj[key].senderReceiver === "sender") {
                 chatArea.innerHTML +=
@@ -67,6 +68,10 @@ async function loadPreviousData() {
 
         })
 
+        // firebase.database().ref(`chats/friends/${currentUserId}/${clickedUserId}/messages/`)
+        // .orderByKey().limitToLast(1).on('value', (snapshot) =>{
+        //     console.log(snapshot.val())
+        // })
     })
 
 
