@@ -12,15 +12,18 @@ window.addEventListener('load', async () => {
   await authCheck()
   getAllUsers()
   welcomeNote()
+  checkSentReq()
+  checkReceivedRequest()
   
 })
+
 
 async function welcomeNote() {
   let nameArea = document.getElementById("welcomeName");
   let get = await localStorage.getItem("userAuth");
   let data = JSON.parse(get)
   let currentUserEmail = data.user.email;
-  nameArea.innerHTML += " " + currentUserEmail;
+  nameArea.innerHTML += " " +currentUserEmail;
 }
 
 async function authCheck() {
@@ -67,7 +70,9 @@ function getAllUsers() {
 
 function sendFriendRequest(key, button) {
   console.log(key);
-  let currentUserId = firebase.auth().currentUser.uid;
+  let get = localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
   firebase.database().ref(`chats/pendingRequests/${currentUserId}/${key}`).set({
     status: "sender"
   })
@@ -82,12 +87,12 @@ function sendFriendRequest(key, button) {
 
 }
 
-function checkReceivedRequest() {
+async function checkSentReq() {
 
-}
+  let get = await localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
 
-function checkSentReq() {
-  let currentUserId = firebase.auth().currentUser.uid;
   let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/`);
   database.once('value', (snapshot) => {
     objPending = snapshot.val()
@@ -102,19 +107,24 @@ function checkSentReq() {
   })
 }
 
-function checkReceivedRequest() {
+async function checkReceivedRequest() {
   let requestArea = document.getElementById("requestContainer");
-  let currentUserId = firebase.auth().currentUser.uid;
+  let get = await localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
   let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/`);
   database.once('value', (snapshot) => {
     objPending = snapshot.val()
     let objArray = Object.keys(objPending);
     objArray.map(key => {
       if (objPending[key].status === "receiver") {
+        let user = document.getElementById(key);
+          user.style.display = "none";
           firebase.database().ref(`users/${key}`)
           .once('value', (dataSnapshot) =>{
             let userData = dataSnapshot.val();
-            console.log(userData.name)
+            
+            requestArea.innerHTML += `<h4>${userData.name}</h4>` 
 
           })
       }

@@ -14,19 +14,20 @@
     <nav>
         <div class="w3-bar w3-red">
             <a href="#" class="w3-bar-item w3-button">Home</a>
-            <a href="./friends.html" class="w3-bar-item w3-button w3-right">Friends</a>
+            <a href="./friends.html" class="w3-bar-item w3-button">Friends</a>
             <a onClick="logOut()" href="javascript:void" class="w3-bar-item w3-button w3-right">Logout</a>
+            <a class="w3-bar-item w3-button w3-right" id="welcomeName">Welcome </a>
         </div>
     </nav>
 
-    <div class="friendRequest">
-        <h3>Friend Request</h3>
-        <div class="requestContainer">
-            
+    <h3 class="w3-center">Friend Request</h3>
+    <div class="w3-center friendRequest w3-panel w3-pale-red w3-leftbar w3-rightbar w3-border-red">
+        <div id="requestContainer">
+
         </div>
     </div>
     <h3 class="w3-center">Total Users</h3>
-    <h4 id="welcomeName">Welcome </h4>
+    
     <div id="userList" class="container">
         
     </div>
