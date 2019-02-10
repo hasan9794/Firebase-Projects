@@ -11,7 +11,10 @@ firebase.initializeApp(config);
 window.addEventListener('load', async () => {
   await authCheck()
   getAllUsers()
+  // welcomeNote()
+
 })
+
 
 async function authCheck() {
   let get = await localStorage.getItem("userAuth");
@@ -25,10 +28,16 @@ async function authCheck() {
   }
 }
 
+function welcomeNote() {
+  let nameArea = document.getElementById("welcomeName");
+  let currentUserEmail = firebase.auth().currentUser.uid;
+  nameArea.innerHTML = currentUserEmail;
+}
 
 function getAllUsers() {
   let userList = document.getElementById("userList");
   let database = firebase.database().ref('/users');
+  let id = 0;
   database.once('value', (snapshot) => {
     let usersobject = snapshot.val();
     userId = Object.keys(usersobject);
@@ -36,41 +45,61 @@ function getAllUsers() {
     userId.map(key => {
       console.log(usersobject[key].name)
       if (key !== currentUserId) {
-        userList.innerHTML += `<h4>${usersobject[key].name}<button onClick="startChat('${key}')" >Start Chat</button></h4> `
+        userList.innerHTML += `<h4 id="${key}">${usersobject[key].name}<button id="btn_${id}" onClick="sendFriendRequest('${key}', this)" >Send Request</button></h4> `
       }
 
     })
   })
 }
 
-function startChat(clickedUserId){
+// function startChat(clickedUserId) {
+//   let currentUserId = firebase.auth().currentUser.uid;
+//   console.log(clickedUserId)
+//   localStorage.setItem("clickedUserId", JSON.stringify(clickedUserId))
+//   localStorage.setItem("currentUserId", JSON.stringify(currentUserId))
+//   location.assign('../pages/chat.html')        
+// }
+
+function sendFriendRequest(key, button) {
+  console.log(key);
   let currentUserId = firebase.auth().currentUser.uid;
-  console.log(clickedUserId)
-  localStorage.setItem("clickedUserId", JSON.stringify(clickedUserId))
-  localStorage.setItem("currentUserId", JSON.stringify(currentUserId))
-  location.assign('../pages/chat.html')        
+  firebase.database().ref(`chats/pendingRequests/${currentUserId}/${key}`).set({
+    status: "sender"
+  })
+  firebase.database().ref(`chats/pendingRequests/${key}/${currentUserId}`).set({
+    status: "receiver"
+  })
+  console.log(button.id)
+  let editId = button.id.replace("btn_", "");
+  let tagId = document.getElementById("h_" + editId)
+  tagId.style.visibility = "hidden"
+
+
 }
 
-// function sendFriendRequest(key, button) {
-//   console.log(key);
-//   let currentUserId = firebase.auth().currentUser.uid;
-//   firebase.database().ref(`chats/pendingRequests/${currentUserId}/${key}`).set({
-//     status: "sender"
-//   })
-//   firebase.database().ref(`chats/pendingRequests/${key}/${currentUserId}`).set({
-//     status: "receiver"
-//   })
+function checkReceivedRequest() {
 
-//   button.innerHTML = "request sent"
-// }
+}
 
-// function checkSentReq() {
-//   let currentUserId = firebase.auth().currentUser.uid;
-//   let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/`);
-//   database.once('value', (snapshot) => {
-//     valuea = snapshot.val()
-//   })
-// }
+function checkSentReq() {
+  let currentUserId = firebase.auth().currentUser.uid;
+  let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/`);
+  database.once('value', (snapshot) => {
+    objPending = snapshot.val()
+    let objArray = Object.keys(objPending);
+    objArray.map(key => {
+      if (objPending[key].status === "sender") {
+          let user = document.getElementById(key);
+          user.style.display = "none";
+      }
+    })
+
+  })
+}
+
+function checkReceivedRequest() {
+  
+}
 
 function logOut() {
   firebase.auth().signOut()

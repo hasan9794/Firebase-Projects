@@ -23,6 +23,7 @@ var config = {
         console.log(uid)
         firebase.database().ref('users/' + uid).set(userObj);
         alert("Signup Successful");
+        location.assign('../pages/signin.html')
     })
     
     .catch(function(error) {

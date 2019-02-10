@@ -122,7 +122,14 @@ sendBtn.addEventListener('click', () => {
             senderReceiver: "receiver",
             name: currentUserName
         })
+
+        //set id of of users which request is being sent
+        
 })
+
+function hideUsersRequestSent(){
+
+}
 
 
 function logOut() {
