@@ -81,8 +81,8 @@ function sendFriendRequest(key, button) {
   })
   console.log(button.id)
   let editId = button.id.replace("btn_", "");
-  let tagId = document.getElementById("h_" + editId)
-  tagId.style.visibility = "hidden"
+  // let tagId = document.getElementById("h_" + editId)
+  button.parentElement.style.visibility = "hidden"
 
 
 }
@@ -108,7 +108,7 @@ async function checkSentReq() {
 }
 
 async function checkReceivedRequest() {
-  let requestArea = document.getElementById("requestContainer");
+  let requestArea = document.getElementById("friendRequestList");
   let get = await localStorage.getItem("userAuth");
   let data = JSON.parse(get)
   let currentUserId = data.user.uid;
@@ -120,17 +120,51 @@ async function checkReceivedRequest() {
       if (objPending[key].status === "receiver") {
         let user = document.getElementById(key);
           user.style.display = "none";
+          
           firebase.database().ref(`users/${key}`)
           .once('value', (dataSnapshot) =>{
             let userData = dataSnapshot.val();
             
-            requestArea.innerHTML += `<h4>${userData.name}</h4>` 
+            requestArea.innerHTML +=
+             `
+             <li class="w3-bar">
+             <img src="img_avatar2.png" class="w3-bar-item w3-circle" style="width:85px">
+             <div class="w3-bar-item">
+               <span class="w3-large">${userData.name} <button onClick="declineRequest('${key}')" class="w3-button w3-red">Decline</button><button onClick="acceptRequest('${key}')" class="w3-button w3-blue">accept</button></span><br>
+               <span>Mutual Friend: </span>
+             </div>
+           </li>
+            ` 
 
           })
       }
     })
 
   })
+}
+
+function acceptRequest(nodeKey) {
+  console.log("A")
+}
+
+function declineRequest(nodeKey) {
+  let get = localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
+  let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/${nodeKey}`)
+  database.remove().then(() =>{
+    console.log("Remove Succes")
+  }).catch((err) =>{
+      console.log("Failed to delete" + err.message)
+  })
+
+  database = firebase.database().ref(`chats/pendingRequests/${nodeKey}/${currentUserId}/`)
+  database.remove().then(() =>{
+    console.log("Remove Succes")
+  }).catch((err) =>{
+      console.log("Failed to delete" + err.message)
+  })
+
 }
 
 function logOut() {
