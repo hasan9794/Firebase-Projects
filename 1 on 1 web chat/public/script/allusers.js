@@ -11,10 +11,17 @@ firebase.initializeApp(config);
 window.addEventListener('load', async () => {
   await authCheck()
   getAllUsers()
-  // welcomeNote()
-
+  welcomeNote()
+  
 })
 
+async function welcomeNote() {
+  let nameArea = document.getElementById("welcomeName");
+  let get = await localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserEmail = data.user.email;
+  nameArea.innerHTML += " " + currentUserEmail;
+}
 
 async function authCheck() {
   let get = await localStorage.getItem("userAuth");
@@ -28,11 +35,7 @@ async function authCheck() {
   }
 }
 
-function welcomeNote() {
-  let nameArea = document.getElementById("welcomeName");
-  let currentUserEmail = firebase.auth().currentUser.uid;
-  nameArea.innerHTML = currentUserEmail;
-}
+
 
 function getAllUsers() {
   let userList = document.getElementById("userList");
@@ -51,6 +54,8 @@ function getAllUsers() {
     })
   })
 }
+
+
 
 // function startChat(clickedUserId) {
 //   let currentUserId = firebase.auth().currentUser.uid;
