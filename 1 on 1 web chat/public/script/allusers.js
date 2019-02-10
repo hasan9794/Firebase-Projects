@@ -98,7 +98,24 @@ function checkSentReq() {
 }
 
 function checkReceivedRequest() {
-  
+  let requestArea = document.getElementById("requestContainer");
+  let currentUserId = firebase.auth().currentUser.uid;
+  let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/`);
+  database.once('value', (snapshot) => {
+    objPending = snapshot.val()
+    let objArray = Object.keys(objPending);
+    objArray.map(key => {
+      if (objPending[key].status === "receiver") {
+          firebase.database().ref(`users/${key}`)
+          .once('value', (dataSnapshot) =>{
+            let userData = dataSnapshot.val();
+            console.log(userData.name)
+
+          })
+      }
+    })
+
+  })
 }
 
 function logOut() {
