@@ -157,11 +157,16 @@ async function checkFriends() {
   database.once('value', (snapshot) => {
     let friendsObj = snapshot.val();
     let friendKeysArray = Object.keys(friendsObj);
-    friendKeysArray.map(key => {
-     let user = document.getElementById(`${key}`);
-     user.style.display = "none";
-    })
-    console.log(friendKeys)
+    let userTags = document.getElementsByTagName("h4");
+    let contentId = [];
+    for(let i=0 ; i<userTags.length; i++){
+      friendKeysArray.map(uid => {
+        if(userTags[i].id === uid){
+          console.log(uid)
+          document.getElementById(userTags[i].id).style.display = "none";
+        }
+      })
+    }
   })
 }
 
@@ -217,5 +222,5 @@ function logOut() {
       let message = error.message;
       console.log(message)
       // An error happened.
-    });
+    })
 }
