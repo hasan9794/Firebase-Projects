@@ -14,7 +14,8 @@ window.addEventListener('load', async () => {
   welcomeNote()
   checkSentReq()
   checkReceivedRequest()
-  
+  // checkFriends()
+
 })
 
 
@@ -23,7 +24,7 @@ async function welcomeNote() {
   let get = await localStorage.getItem("userAuth");
   let data = JSON.parse(get)
   let currentUserEmail = data.user.email;
-  nameArea.innerHTML += " " +currentUserEmail;
+  nameArea.innerHTML += " " + currentUserEmail;
 }
 
 async function authCheck() {
@@ -99,8 +100,8 @@ async function checkSentReq() {
     let objArray = Object.keys(objPending);
     objArray.map(key => {
       if (objPending[key].status === "sender") {
-          let user = document.getElementById(key);
-          user.style.display = "none";
+        let user = document.getElementById(key);
+        user.style.display = "none";
       }
     })
 
@@ -119,14 +120,14 @@ async function checkReceivedRequest() {
     objArray.map(key => {
       if (objPending[key].status === "receiver") {
         let user = document.getElementById(key);
-          user.style.display = "none";
-          
-          firebase.database().ref(`users/${key}`)
-          .once('value', (dataSnapshot) =>{
+        user.style.display = "none";
+
+        firebase.database().ref(`users/${key}`)
+          .once('value', (dataSnapshot) => {
             let userData = dataSnapshot.val();
-            
+
             requestArea.innerHTML +=
-             `
+              `
              <li class="w3-bar">
              <img src="img_avatar2.png" class="w3-bar-item w3-circle" style="width:85px">
              <div class="w3-bar-item">
@@ -134,7 +135,7 @@ async function checkReceivedRequest() {
                <span>Mutual Friend: </span>
              </div>
            </li>
-            ` 
+            `
 
           })
       }
@@ -143,8 +144,44 @@ async function checkReceivedRequest() {
   })
 }
 
+function test() {
+  a = document.getElementsByTagName('h4');
+}
+
+//to hide friends from the list
+async function checkFriends() {
+  let get = await localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
+  let database = firebase.database().ref(`users/${currentUserId}/friend`)
+  database.once('value', (snapshot) => {
+    let friendsObj = snapshot.val();
+    let friendKeysArray = Object.keys(friendsObj);
+    friendKeysArray.map(key => {
+     let user = document.getElementById(`${key}`);
+     user.style.display = "none";
+    })
+    console.log(friendKeys)
+  })
+}
+
 function acceptRequest(nodeKey) {
-  console.log("A")
+
+  let get = localStorage.getItem("userAuth");
+  let data = JSON.parse(get)
+  let currentUserId = data.user.uid;
+  declineRequest(nodeKey) //deletes request from pending database
+
+  let usersNode = firebase.database().ref(`users/${currentUserId}/friend/${nodeKey}`)
+  usersNode.set({
+    status: "friend"
+  })
+
+  usersNode = firebase.database().ref(`users/${nodeKey}/friend/${currentUserId}`)
+  usersNode.set({
+    status: "friend"
+  })
+  // location.reload();
 }
 
 function declineRequest(nodeKey) {
@@ -152,19 +189,19 @@ function declineRequest(nodeKey) {
   let data = JSON.parse(get)
   let currentUserId = data.user.uid;
   let database = firebase.database().ref(`chats/pendingRequests/${currentUserId}/${nodeKey}`)
-  database.remove().then(() =>{
+  database.remove().then(() => {
     console.log("Remove Succes")
-  }).catch((err) =>{
-      console.log("Failed to delete" + err.message)
+  }).catch((err) => {
+    console.log("Failed to delete" + err.message)
   })
 
   database = firebase.database().ref(`chats/pendingRequests/${nodeKey}/${currentUserId}/`)
-  database.remove().then(() =>{
+  database.remove().then(() => {
     console.log("Remove Succes")
-  }).catch((err) =>{
-      console.log("Failed to delete" + err.message)
+  }).catch((err) => {
+    console.log("Failed to delete" + err.message)
   })
-
+  location.reload();
 }
 
 function logOut() {
